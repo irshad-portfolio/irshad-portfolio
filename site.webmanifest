@@ -1,0 +1,12 @@
+{
+  "name": "Irshad N – HSE Officer Portfolio",
+  "short_name": "Irshad N",
+  "description": "HSE Officer & Safety Supervisor Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050a14",
+  "theme_color": "#050a14",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

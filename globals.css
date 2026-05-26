@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base ────────────────────────────────────────── */
+:root {
+  --cyan: #00d4ff;
+  --amber: #ff6b2b;
+  --obsidian: #050a14;
+  --navy: #0a1628;
+  --ice: #e0e8f7;
+  --ice-dim: #8a9ab5;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Custom Scrollbar ────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--obsidian); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--cyan), var(--amber));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { opacity: 0.8; }
+
+/* ── Selection ───────────────────────────────────── */
+::selection {
+  background: rgba(0, 212, 255, 0.25);
+  color: var(--ice);
+}
+
+/* ── Cursor Glow ─────────────────────────────────── */
+.cursor-glow {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,212,255,0.8) 0%, transparent 70%);
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s linear, opacity 0.3s;
+  mix-blend-mode: screen;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,212,255,0.4);
+  pointer-events: none;
+  position: fixed;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease-out, opacity 0.3s;
+}
+
+/* ── Glass Card ──────────────────────────────────── */
+@layer components {
+  .glass-card {
+    @apply relative rounded-2xl border border-white/5 bg-navy-card/80 backdrop-blur-md;
+    background: linear-gradient(135deg, rgba(9,24,48,0.9), rgba(5,10,20,0.8));
+  }
+
+  .glass-card::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl;
+    background: linear-gradient(135deg, rgba(0,212,255,0.04), transparent 50%, rgba(255,107,43,0.02));
+    pointer-events: none;
+  }
+
+  .glow-border {
+    @apply relative;
+  }
+
+  .glow-border::after {
+    content: '';
+    @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300;
+    box-shadow: 0 0 0 1px rgba(0,212,255,0.3), 0 0 30px rgba(0,212,255,0.1);
+  }
+
+  .glow-border:hover::after { @apply opacity-100; }
+
+  /* Gradient text */
+  .text-gradient-cyan {
+    background: linear-gradient(135deg, #00d4ff, #00a8cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-fire {
+    background: linear-gradient(135deg, #ff6b2b, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(135deg, #e0e8f7 0%, #00d4ff 50%, #ff6b2b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Neon button */
+  .btn-cyan {
+    @apply relative px-6 py-3 rounded-lg font-display text-sm font-semibold tracking-widest text-obsidian overflow-hidden transition-all duration-300;
+    background: linear-gradient(135deg, #00d4ff, #00a8cc);
+    box-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+
+  .btn-cyan:hover {
+    box-shadow: 0 0 40px rgba(0,212,255,0.6), 0 0 80px rgba(0,212,255,0.2);
+    transform: translateY(-2px);
+  }
+
+  .btn-outline-cyan {
+    @apply relative px-6 py-3 rounded-lg font-display text-sm font-semibold tracking-widest text-cyan-glow overflow-hidden transition-all duration-300;
+    border: 1px solid rgba(0,212,255,0.5);
+    background: rgba(0,212,255,0.05);
+  }
+
+  .btn-outline-cyan:hover {
+    background: rgba(0,212,255,0.1);
+    border-color: rgba(0,212,255,0.8);
+    box-shadow: 0 0 25px rgba(0,212,255,0.3);
+    transform: translateY(-2px);
+  }
+
+  /* Section label */
+  .section-label {
+    @apply font-display text-xs tracking-[0.3em] text-cyan-glow uppercase;
+  }
+
+  /* Grid background */
+  .bg-grid {
+    background-image: linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}
+
+/* ── Loading Screen ──────────────────────────────── */
+.loading-bar {
+  animation: loadBar 2s ease-in-out forwards;
+}
+
+@keyframes loadBar {
+  0%   { width: 0%; }
+  30%  { width: 40%; }
+  60%  { width: 70%; }
+  90%  { width: 95%; }
+  100% { width: 100%; }
+}
+
+.loading-text-blink {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ── Particle Canvas ─────────────────────────────── */
+#particle-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ── Timeline ────────────────────────────────────── */
+.timeline-line {
+  background: linear-gradient(to bottom, transparent, var(--cyan), transparent);
+}
+
+/* ── Skill Bar ───────────────────────────────────── */
+.skill-bar-fill {
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Scan Line Effect ────────────────────────────── */
+@keyframes scanLine {
+  0%   { top: -10%; opacity: 0.5; }
+  100% { top: 110%; opacity: 0; }
+}
+
+.scan-line {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.6), transparent);
+  animation: scanLine 4s linear infinite;
+  pointer-events: none;
+}
+
+/* ── Noise texture overlay ───────────────────────── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .cursor-glow, .cursor-ring { display: none; }
+}
